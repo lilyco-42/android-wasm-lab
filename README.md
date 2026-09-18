@@ -15,12 +15,12 @@ Answer so far: yes, on an API 36 x86_64 emulator with the stock Chrome 133 that 
 | Real ort binary | `vendor/ort-wasm-simd-threaded.wasm` = 11,210,254 B → `validate: true`, `compile: ok` |
 | `instantiate` | fails on missing imports only (expected without the JS glue) |
 | Cold inference | **9.5 s** from clicking 开始 to a finished cutout (site storage wiped first) |
-| Batch of 10 | **10/10 in 37.1 s → 3.71 s per image**, Chrome peak `TOTAL PSS` **119 MB** |
+| Batch of 10 | run A **40 s**, run B **37.1 s** → ≈3.7 s per image; Chrome peak `TOTAL PSS` 97 MB (A) / **119 MB** (B) |
 | Output | 710×946, 27.6 % fully transparent, 58.2 % fully opaque |
 | Host hints | `deviceMemory: 2` GB, 4 cores, `SharedArrayBuffer: undefined` |
 
-Batch curve (`harness/batch.mjs --batch 10`, same image repeated, AVD `rembg-ci` x86_64,
-2 GB RAM, 4 cores, single-threaded WASM, u2netp):
+Batch curve (run A — `harness/batch.mjs --batch 10`, same image repeated, AVD `rembg-ci` x86_64,
+2 GB RAM, 4 cores, single-threaded WASM, u2netp; run B is a separate clean rerun):
 
 | t (s) | cutouts rendered | Chrome PSS (MB) |
 |---|---|---|
