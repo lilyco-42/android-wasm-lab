@@ -12,14 +12,14 @@ Answer so far: yes, on an API 36 x86_64 emulator with the stock Chrome 133 that 
 |---|---|
 | Chrome in the emulator image | `com.android.chrome` 133.0.6943.137 |
 | Page load | `Rembg Studio · 浏览器版`, purchase card visible |
-| Real ort binary | `vendor/ort-wasm-simd-threaded.wasm` = 11,210,254 B → `validate: true`, `compile: ok` |
+| Real ort binary | `vendor/ort-wasm-simd-threaded.wasm` = 11,210,254 B �?`validate: true`, `compile: ok` |
 | `instantiate` | fails on missing imports only (expected without the JS glue) |
-| Cold inference | **9.5 s** from clicking 开始 to a finished cutout (site storage wiped first) |
-| Batch of 10 | run A **40 s**, run B **37.1 s** → ≈3.7 s per image; Chrome peak `TOTAL PSS` 97 MB (A) / **119 MB** (B) |
+| Cold inference | **9.5 s** from clicking 开�?to a finished cutout (site storage wiped first) |
+| Batch of 10 | run A **40 s**, run B **37.1 s** �?�?.7 s per image; Chrome peak `TOTAL PSS` 97 MB (A) / **119 MB** (B) |
 | Output | 710×946, 27.6 % fully transparent, 58.2 % fully opaque |
 | Host hints | `deviceMemory: 2` GB, 4 cores, `SharedArrayBuffer: undefined` |
 
-Batch curve (run A — `harness/batch.mjs --batch 10`, same image repeated, AVD `rembg-ci` x86_64,
+Batch curve (run A �?`harness/batch.mjs --batch 10`, same image repeated, AVD `rembg-ci` x86_64,
 2 GB RAM, 4 cores, single-threaded WASM, u2netp; run B is a separate clean rerun):
 
 | t (s) | cutouts rendered | Chrome PSS (MB) |
@@ -59,16 +59,16 @@ queue and the timing reports the previous run.
 1. A fresh emulator Chrome swallows the first `VIEW` intent behind onboarding (sign-in, then
    notifications). Both must be dismissed; use `-read-only` only if you do not want that to persist.
 2. Web content is invisible to `uiautomator` until accessibility is switched on, and even then the
-   workbench's previews are id-less `blob:` images — identify the cutout by its alpha channel.
+   workbench's previews are id-less `blob:` images �?identify the cutout by its alpha channel.
 3. `WebAssembly.validate` on hand-typed feature-detect bytes is a trap: a wrong byte array reports
    "no SIMD" on a browser that supports it. Validate the artifact the app really loads.
 4. Assigning `input.files` from an in-page `DataTransfer` works, but a large base64 string inlined
-   into an evaluated expression does not — pass it as a `Runtime.callFunctionOn` argument.
+   into an evaluated expression does not �?pass it as a `Runtime.callFunctionOn` argument.
 5. `DOM.setFileInputFiles` with an `/sdcard/...` path fails: scoped storage denies Chrome that read,
    and the Play image cannot `adb root`. Use the in-page injection or the native picker.
 6. The native picker is not enough on its own: `#files` is `multiple`, so PhotoPicker needs a
    `Done` tap after selecting.
-7. `uiautomator` bounds are `"[x1,y1][x2,y2]"` — a regex written as `\[d,d[,]]+d,d\]` silently
+7. `uiautomator` bounds are `"[x1,y1][x2,y2]"` �?a regex written as `\[d,d[,]]+d,d\]` silently
    matches nothing, which looks exactly like "the button never appeared".
 8. Matching Chinese `text=` values read back through `adb shell` is unreliable (console codepage);
    locate native views by `resource-id` and read progress from the ASCII digits in the text.
